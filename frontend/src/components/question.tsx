@@ -47,6 +47,7 @@ function QuestionItem({ question }: { question: Question }) {
 	);
 }
 
+//Quiz stepper that makes sure to list each question 1 at a time.
 export function QuizStepper({ questions }: { questions: Question[] }) {
 	// Unique key based on quiz ID to persist progress per quiz
 	const quizKey = `quiz-progress-${questions[0]?.assignment_id}`;
@@ -107,6 +108,7 @@ export function QuizStepper({ questions }: { questions: Question[] }) {
 		correctAnswers,
 	]);
 
+	// Set the answer when new radio button is clicked
 	const handleChoiceChange = (value: string) => {
 		setAnswers((prev) => ({
 			...prev,
@@ -114,7 +116,9 @@ export function QuizStepper({ questions }: { questions: Question[] }) {
 		}));
 	};
 
+	//Submit logic
 	const handleSubmit = () => {
+		//Calculate the points by comparing answers to correct stored answers
 		let points = 0;
 		let totalPoints = 0;
 		let correctAnswersCount = 0;
@@ -126,8 +130,8 @@ export function QuizStepper({ questions }: { questions: Question[] }) {
 			}
 		}
 
-		const user_id = 1; // Replace with real user ID
-		const assignment_id = questions[0]?.assignment_id;
+		const user_id = 1; // Only using user 1 but could expand to others
+		const assignment_id = questions[0]?.assignment_id; // quiz id to keep track of scores in scores table
 
 		fetch(scoresBaseUrl(), {
 			method: "POST",
@@ -154,17 +158,18 @@ export function QuizStepper({ questions }: { questions: Question[] }) {
 		setEarnedPoints(points);
 		setTotalPoints(totalPoints);
 		setCorrectAnswers(correctAnswersCount);
-		console.log(answers, questions, "SUBMIT", points, totalPoints);
+		// console.log(answers, questions, "SUBMIT", points, totalPoints);
 		setSubmitted(true);
 	};
 
+	// function for showing the choices
 	const renderChoices = () => {
 		const choices = currentQuestion.choices
 			? currentQuestion.choices.split(";;").map((c) => c.trim())
 			: [];
 
 		const selected = answers[currentQuestion.id];
-
+		//Map over choices and give each one a radio button
 		return (
 			<div className="flex flex-col space-y-2">
 				{choices.map((choice, index) => (
@@ -185,6 +190,8 @@ export function QuizStepper({ questions }: { questions: Question[] }) {
 		);
 	};
 
+	// Logic for showing back/next/submit buttons based on index and whether it is submitted or not.
+	// Also contains logic for showing correct answer and points on submission
 	return (
 		<div className="space-y-6">
 			<div className="border p-4 rounded-md">
@@ -263,22 +270,3 @@ export type Question = {
 	answer: string;
 	points: number;
 };
-
-export function QuizQuestionsList({ questions }: { questions: Question[] }) {
-	return (
-		<Table>
-			<TableHeader>
-				<TableRow>
-					<TableHead>ID</TableHead>
-					<TableHead>Question</TableHead>
-					<TableHead>Answer</TableHead>
-				</TableRow>
-			</TableHeader>
-			<TableBody>
-				{questions.map((question) => (
-					<QuestionItem key={question.id} question={question} />
-				))}
-			</TableBody>
-		</Table>
-	);
-}

@@ -15,20 +15,21 @@ import {
 } from "@/paths";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+// Logic for each quiz item. Get total score to display and top score from the scores table
 function QuizItem({ title, id }: Quiz) {
 	const [score, setScore] = useState<number | null>(null);
-	const [allScores, setAllScores] = useState<number | null>(null);
+	// const [allScores, setAllScores] = useState<number | null>(null);
 	const [totalPoints, setTotalPoints] = useState(0);
 
-	useEffect(() => {
-		fetch(allScoresApiUrl({}))
-			.then((res) => res.json())
-			.then(setAllScores)
-			.catch((err) => {
-				console.error("Failed to fetch questions", err);
-			});
-	}, []);
+	//All Scores api used for testing and checking results
+	// useEffect(() => {
+	// 	fetch(allScoresApiUrl({}))
+	// 		.then((res) => res.json())
+	// 		.then(setAllScores)
+	// 		.catch((err) => {
+	// 			console.error("Failed to fetch questions", err);
+	// 		});
+	// }, []);
 
 	useEffect(() => {
 		fetch(quizQuestionApiUrl({ id: id.toString() }))
@@ -54,12 +55,12 @@ function QuizItem({ title, id }: Quiz) {
 	}, [id]);
 
 	const handleResetClick = () => {
-		console.log("ALLs cos", allScores);
 		const quizKey = `quiz-progress-${id}`;
 		localStorage.removeItem(quizKey);
-		console.log("ALLs cos", allScores, localStorage, quizKey);
+		//console.log("ALLs scores", allScores, localStorage, quizKey);
 	};
 
+	// Buttons to take quiz and then reset the answers to retake quiz with link to quiz page
 	return (
 		<TableRow>
 			<TableCell>{id}</TableCell>
