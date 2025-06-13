@@ -19,5 +19,3 @@ export const scoresBaseUrl = () => `${SERVER_ORIGIN}/scores`;
 // local routes
 export const rootPath = pathFactory("/");
 export const quizPath = pathFactory("/quizzes/:id");
-export const quizQuestionPath = pathFactory("/quizzes/:id/questions");
-export const quizzesPath = pathFactory("/quizzes");

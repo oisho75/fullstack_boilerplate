@@ -7,7 +7,7 @@ const server = fastify();
 server.register(cors, {});
 
 const PORT = +(process.env.BACKEND_SERVER_PORT ?? 3001);
-
+//ALL API for different tables
 server.get("/", async (_request, _reply) => {
 	return "hello world\n";
 });
@@ -17,25 +17,25 @@ server.get("/users", (_request, reply) => {
 
 	return data;
 });
-
+// Get all quizzes
 server.get("/quizzes", (_request, reply) => {
 	const data = db.prepare("SELECT * FROM assignments").all();
 
 	return data;
 });
-
+// Get all scores used for testing and checking that scores were stored
 server.get("/scores", (_request, reply) => {
 	const data = db.prepare("SELECT * FROM scores").all();
 
 	return data;
 });
-
+// Get specific quiz
 server.get("/quizzes/:id", (request, reply) => {
 	const data = db.prepare("SELECT * FROM assignments WHERE id = :id");
 
 	return data.get(request.params);
 });
-
+//Get specific score for certain quiz and user
 server.get("/scores/:assignment_id/:user_id", (request, reply) => {
 	const params = request.params as {
 		assignment_id: number;
@@ -60,7 +60,7 @@ server.get("/scores/:assignment_id/:user_id", (request, reply) => {
 
 	return reply.send(result);
 });
-
+// Post a user's score for a specific quiz
 server.post("/scores", async (request, reply) => {
 	const body = request.body as {
 		assignment_id: number;
@@ -85,7 +85,7 @@ server.post("/scores", async (request, reply) => {
 		reply.code(500).send({ error: "Internal Server Error" });
 	}
 });
-
+//Questions for a specific quiz
 server.get("/quizzes/:id/questions", (request, reply) => {
 	const stmt = db.prepare(`
 		SELECT id, assignment_id, title, choices, answer, points
