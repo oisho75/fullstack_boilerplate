@@ -1,3 +1,4 @@
+-- Drop for easy setup and create assignments
 DROP TABLE IF EXISTS scores;
 DROP TABLE IF EXISTS assignment_questions;
 DROP TABLE IF EXISTS assignments;

@@ -16,7 +16,22 @@ VALUES
   ('Digestive System Overview');
 
 -- Create questions for Skeletal System Quiz
+-- UNION ALL for additional SELECT statements
 INSERT INTO assignment_questions (assignment_id, title, choices, answer, points)
+SELECT
+  (SELECT id FROM assignments WHERE title = 'Digestive System Overview'),
+  'How many bones are in the adult human body?',
+  '206;;186;;226;;196',
+  '206',
+  70
+UNION ALL
+SELECT
+  (SELECT id FROM assignments WHERE title = 'Cardiovascular System Basics'),
+  'Which bone is the longest in the human body?',
+  'Femur;;Tibia;;Humerus;;Fibula',
+  'Humerus',
+  100
+UNION ALL
 SELECT
   (SELECT id FROM assignments WHERE title = 'Basic Skeletal System Quiz'),
   'Which bone is the longest in the human body?',
@@ -51,27 +66,3 @@ SELECT
   'true;;false',
   'true',
   15;
-
--- Insert scores for 'Basic Skeletal System Quiz'
-INSERT INTO scores (assignment_id, user_id, score)
-VALUES
-  (
-    (SELECT id FROM assignments WHERE title = 'Digestive System Overview'),
-    (SELECT id FROM users WHERE email = 'john@example.com'),
-    70
-  ),
-  (
-    (SELECT id FROM assignments WHERE title = 'Digestive System Overview'),
-    (SELECT id FROM users WHERE email = 'jane@example.com'),
-    75
-  ),
-  (
-    (SELECT id FROM assignments WHERE title = 'Digestive System Overview'),
-    (SELECT id FROM users WHERE email = 'alice@example.com'),
-    80
-  ),
-  (
-    (SELECT id FROM assignments WHERE title = 'Digestive System Overview'),
-    (SELECT id FROM users WHERE email = 'bob@example.com'),
-    100
-  );

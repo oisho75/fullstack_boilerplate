@@ -1,3 +1,4 @@
+-- Drop for easy setup and create scores table
 DROP TABLE IF EXISTS scores;
 CREATE TABLE
   scores (

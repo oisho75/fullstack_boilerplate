@@ -1,3 +1,4 @@
+-- Drop for easy setup and create assignment Questions
 DROP TABLE IF EXISTS assignment_questions;
 CREATE TABLE
   assignment_questions (
