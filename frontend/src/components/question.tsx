@@ -1,51 +1,5 @@
-import { Button } from "@/components/ui/button";
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
 import { scoresBaseUrl } from "@/paths";
 import { useEffect, useState } from "react";
-
-function QuestionItem({ question }: { question: Question }) {
-	const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
-
-	const choices = question.choices
-		? question.choices.split(";;").map((choice) => choice.trim())
-		: null;
-	return (
-		<TableRow>
-			<TableCell>{question.id}</TableCell>
-			<TableCell>{question.title}</TableCell>
-			<TableCell>
-				{choices ? (
-					<ul className="list-disc list-inside space-y-1">
-						{choices.map((choice, index) => (
-							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-							<label key={index} className="flex items-center space-x-2">
-								<input
-									type="radio"
-									name={`question-${question.id}`}
-									value={choice}
-									checked={selectedChoice === choice}
-									onChange={() => setSelectedChoice(choice)}
-								/>
-								<span>{choice}</span>
-							</label>
-						))}
-					</ul>
-				) : (
-					<div className="flex flex-col space-y-2">
-						<em>Question Error</em>
-					</div>
-				)}
-			</TableCell>
-		</TableRow>
-	);
-}
 
 //Quiz stepper that makes sure to list each question 1 at a time.
 export function QuizStepper({ questions }: { questions: Question[] }) {
@@ -84,6 +38,7 @@ export function QuizStepper({ questions }: { questions: Question[] }) {
 	}, [quizKey]);
 
 	// Save to localStorage on state change *after* initial load
+	//Needed so it does not reset the local storage on inital renders
 	useEffect(() => {
 		if (!hasHydrated && localStorage.getItem(quizKey) != null) return; //  skip initial render
 
@@ -162,7 +117,7 @@ export function QuizStepper({ questions }: { questions: Question[] }) {
 		setSubmitted(true);
 	};
 
-	// function for showing the choices
+	// function for rendering the choices
 	const renderChoices = () => {
 		const choices = currentQuestion.choices
 			? currentQuestion.choices.split(";;").map((c) => c.trim())
@@ -261,7 +216,7 @@ export function QuizStepper({ questions }: { questions: Question[] }) {
 		</div>
 	);
 }
-
+//Question type
 export type Question = {
 	id: number;
 	assignment_id: number;

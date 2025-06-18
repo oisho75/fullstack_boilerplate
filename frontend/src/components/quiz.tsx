@@ -15,7 +15,8 @@ import {
 } from "@/paths";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-// Logic for each quiz item. Get total score to display and top score from the scores table
+
+// Logic for each quiz item on main page. Get total score to display and top score from the scores table
 function QuizItem({ title, id }: Quiz) {
 	const [score, setScore] = useState<number | null>(null);
 	// const [allScores, setAllScores] = useState<number | null>(null);
@@ -31,6 +32,7 @@ function QuizItem({ title, id }: Quiz) {
 	// 		});
 	// }, []);
 
+	// API pulls to get total points for each quiz
 	useEffect(() => {
 		fetch(quizQuestionApiUrl({ id: id.toString() }))
 			.then((res) => res.json())
@@ -44,6 +46,7 @@ function QuizItem({ title, id }: Quiz) {
 			});
 	}, [id]);
 
+	// API pulls to get the top score submited for each quiz
 	useEffect(() => {
 		fetch(scoresApiUrl({ assignment_id: id.toString(), user_id: "1" }))
 			.then((res) => {
@@ -54,6 +57,7 @@ function QuizItem({ title, id }: Quiz) {
 			.catch(() => setScore(null));
 	}, [id]);
 
+	//Resets local storage for a certain quiz on click
 	const handleResetClick = () => {
 		const quizKey = `quiz-progress-${id}`;
 		localStorage.removeItem(quizKey);

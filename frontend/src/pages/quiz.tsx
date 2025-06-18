@@ -12,8 +12,9 @@ import {
 import { quizApiUrl, quizQuestionApiUrl, rootPath } from "@/paths";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+
 // Actual Quiz page. Get the Quiz and questions from the DB with useEffect()
-//State in React is a way to store and manage dynamic data in a component.
+// State in React is a way to store and manage dynamic data in a component.
 // This effect runs: Once on component mount and whenever specified state values change
 export function QuizPage() {
 	const { id } = useParams();

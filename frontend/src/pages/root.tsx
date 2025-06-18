@@ -1,6 +1,7 @@
 import { type Quiz, QuizzesList } from "@/components/quiz";
 import { quizzesApiUrl } from "@/paths";
 import { useEffect, useState } from "react";
+
 // Root page which list quizzes. Quizes stored in state and sent to QuizzesList
 export function RootPage() {
 	const [quizzes, setQuizzes] = useState<Quiz[]>([]);
