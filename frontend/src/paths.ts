@@ -8,11 +8,14 @@ const apiUrlFactory = <T extends string>(pattern: T) => {
 	return (params: Params<T>) => SERVER_ORIGIN + builder(params);
 };
 
-// api urls
+// api urls to talk to the backend using provided apiUrlFactory
 export const quizApiUrl = apiUrlFactory("/quizzes/:id");
+export const quizQuestionApiUrl = apiUrlFactory("/quizzes/:id/questions");
 export const quizzesApiUrl = apiUrlFactory("/quizzes");
+export const scoresApiUrl = apiUrlFactory("/scores/:assignment_id/:user_id");
+export const allScoresApiUrl = apiUrlFactory("/scores");
+export const scoresBaseUrl = () => `${SERVER_ORIGIN}/scores`;
 
-// local routes
+// local routes/pages
 export const rootPath = pathFactory("/");
 export const quizPath = pathFactory("/quizzes/:id");
-export const quizzesPath = pathFactory("/quizzes");
